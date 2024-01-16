@@ -1,1 +1,1 @@
-I did have more but I deleted them months ago and can't get them back
+I did have more but deleted them months ago and can't get them back. Also about the terrible tic tac toe win check at the time of writing it (and all the others) I was still in hs and didn't know 2d arrays
