@@ -1,4 +1,13 @@
 import time
+import os
+#clear screen code from https://github.com/Nadelio/SOTF/blob/main/GAMEFILES/clear_screen.py
+windows_os_name = "nt"
+# Commands for each OS to clear the terminal
+clear_screen_command_windows = "cls"
+clear_screen_command_other = "clear"
+# Clear the terminal screen
+def clear_screen():
+    os.system(clear_screen_command_windows if os.name==windows_os_name else clear_screen_command_other)
 start_time = time.time()
 rejected=True
 def Checkwin():
@@ -144,13 +153,13 @@ def Checkwin():
         else:
             exit()
 def reset_game():
+    clear_screen()
     global row1, row2, row3
     row1 = [" ", " ", " "]
     row2 = [" ", " ", " "]
     row3 = [" ", " ", " "]
     printgrid()
 def printgrid():
-    print("the numbers on the side are the rows and the numbers on the top are the column numbers above")
     print("    1   2   3")
     print("  -------------")
     print("1 |" " " + row1[0] + " | " + row1[1] + " | " + row1[2], "|") 
@@ -162,13 +171,8 @@ def printgrid():
 row1=[" "," "," "]
 row2=[" "," "," "]
 row3=[" "," "," "]
-choice=""
 player="1"
 playersymbol="x"
-while choice!="y" and choice!="yes":
-    choice =input("want to play tic tac toe? ").lower()
-    if choice=="n" or choice=="no":
-       exit()
 printgrid()
 while True:
     wrong=True
@@ -202,5 +206,6 @@ while True:
         else:
             player="1"
             playersymbol="x"
+        clear_screen()
         printgrid()
         Checkwin()

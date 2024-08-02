@@ -3,8 +3,15 @@
 import random
 #time is imported as its used for the game timer
 import time
-#used to auto exit the program if you say no to continuing to play the game look at line 84
-from pynput.keyboard import Key, Controller
+import os
+try:
+    #used to auto exit the program if you say no to continuing to play the game look at line 84
+    from pynput.keyboard import Key, Controller
+    keyboard=Controller()
+    pynput_available = True
+except ModuleNotFoundError:
+    pynput_available = False
+    print("pynput not found please install pynput for full function")
 def getNum():
     global numbers
     num=random.choice(numbers)
@@ -71,19 +78,30 @@ def checkwin():
     if won:
         print("you have won" )
         print("the game took", round(time.time() - start_time, 3), "seconds to run")
-    else:
-        print("you havent won yet")
     return won
-##    if row1[0]["chosen"]==True:
-##        print("fyhfjesvbuyksdt7yr")
-##        print("the game took", round(time.time() - start_time, 3), "seconds to run")
-##    elif row2==True:
-##        print("6u74i8iwueyrty73898475647845765745675485765456")
+def reset():
+    global numbers, row1, row2, row3, row4, start_time
+    clear_screen()
+    numbers = [i + 1 for i in range(50)]
+    row1 = [getNum() for _ in range(4)]
+    row2 = [getNum() for _ in range(4)]
+    row3 = [getNum() for _ in range(4)]
+    row4 = [getNum() for _ in range(4)]
+    start_time = time.time()
+    
+#clear screen code from https://github.com/Nadelio/SOTF/blob/main/GAMEFILES/clear_screen.py
+windows_os_name = "nt"
+# Commands for each OS to clear the terminal
+clear_screen_command_windows = "cls"
+clear_screen_command_other = "clear"
+# Clear the terminal screen
+def clear_screen():
+     os.system(clear_screen_command_windows if os.name==windows_os_name else clear_screen_command_other)
+
 print("mark 4 numbers in a row to win")
 numbers=[]
 number=random.randint(1,10)
 start_time=time.time()
-keyboard=Controller()
 for i in range(50):
     numbers.append(i+1)
 row1=[getNum() for _ in range(4)]
@@ -99,9 +117,11 @@ while True:
         again=input("want to play again? ").lower()
         if again=="n" or again=="no":
             print("the game was running for", round(time.time() - start_time, 3),"seconds")
-            time.sleep(8)
-            keyboard.press(Key.enter)
-            keyboard.release(Key.enter)
+            if pynput_available:
+                time.sleep(8)
+                keyboard = Controller()
+                keyboard.press(Key.enter)
+                keyboard.release(Key.enter)
             exit()
         elif again=="y" or again=="yes":
             reset()
@@ -122,9 +142,11 @@ while True:
         continue_=input("are you sure you would like to quit? ").lower()
         if continue_=="y" or choice=="yes":
             print("the game was running for", round(time.time() - start_time, 3),"seconds")
-            time.sleep(8)
-            keyboard.press(Key.enter)
-            keyboard.release(Key.enter)
+            if pynput_available:
+                time.sleep(8)
+                keyboard = Controller()
+                keyboard.press(Key.enter)
+                keyboard.release(Key.enter)
             exit()
         elif continue_=="n" or choice=="no":
             print("the game has been running so far for", round(time.time() - start_time, 3),"seconds")
