@@ -5,7 +5,7 @@ import random
 import time
 import os
 try:
-    #used to auto exit the program if you say no to continuing to play the game look at line 84
+    #used to auto exit the program if you say no to continuing to play the game look at line 120
     from pynput.keyboard import Key, Controller
     keyboard=Controller()
     pynput_available = True
@@ -119,7 +119,6 @@ while True:
             print("the game was running for", round(time.time() - start_time, 3),"seconds")
             if pynput_available:
                 time.sleep(8)
-                keyboard = Controller()
                 keyboard.press(Key.enter)
                 keyboard.release(Key.enter)
             exit()
